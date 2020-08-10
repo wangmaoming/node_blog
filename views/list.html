@@ -1,0 +1,49 @@
+<%- include('header.html')  -%>
+
+<div class="container mt-5">
+    <h2 class="mb-4">当前栏目：<%=category.name%></h2>
+    <div class="row ">
+        <% articles.forEach(article => { %>
+        <div class="my-3 col-sm-12 col-md-3">
+            <div class="card h-100">
+                <img src="<%= article.thumbnail %>" data-src="holder.js/100px150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><%= article.title %></h5>
+                    <p class="card-text"><small class="text-muted"><%= article.time.toLocaleString() %></small></p>
+                    <p class="card-text"><%= article.content.replace(/<[^>]+>/g,'').substring(0,100) %>...</p>
+                    <a href="/article/<%=article.id%>" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+        
+        
+
+    </div>
+    <div>
+        <nav class="d-flex justify-content-between border-top pt-3 px-3">
+            <div class="align-self-center">共 <%= page.count %> 条 / 共 <%= page.total %> 页 / 第
+                <%= page.p %> 页</div>
+                <ul class="pagination mb-0">
+                    <% if (page.p!=1) { %>
+                    <li class="page-item"><a class="page-link"
+                            href="/article/list?p=<%= page.p-1 %>&category_id=<%= category.id %>">上一页</a>
+                    </li>
+                    <% } %>
+                    <% for( let index = 1; index <= page.total; index++ ) { %>
+                    <li class="page-item"><a class="page-link"
+                            href="/article/list/<%= category.id %>?p=<%= index %>"><%= index %></a>
+                    </li>
+                    <% } %>
+                    <% if (page.p != page.total) { %>
+                    <li class="page-item"><a class="page-link"
+                            href="/article/list?p=<%= parseInt(page.p)+1 %>&category_id=<%= category.id %>">下一页</a>
+                    </li>
+                    <% } %>
+                </ul>
+        </nav>
+    </div>
+</div>
+
+
+<%- include('footer.html')  -%>
